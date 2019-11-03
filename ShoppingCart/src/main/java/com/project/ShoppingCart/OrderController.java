@@ -26,6 +26,14 @@ public class OrderController {
         		collect(Collectors.toList());
     }
 	
+	@GetMapping("/api/getTotal")
+    public   Double getTotal() {
+		System.out.println("In here to get order");
+        return orderRepository.findAll()
+        		.stream().filter(or->or.getStatus().equalsIgnoreCase("PENDING"))
+        		.mapToDouble(p->p.getQuantity() * p.getProduct().getProductPrice()).sum();
+    }
+	
 	@RequestMapping(value = "/api/addOrder", method = RequestMethod.POST)
 	Order addOrder(@RequestBody Order order) {
 		List<Order> checklist = orderRepository.findAll().stream()
