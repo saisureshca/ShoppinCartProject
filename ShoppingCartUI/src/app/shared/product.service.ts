@@ -13,6 +13,7 @@ export class ProductService {
   list : Product[];
   order : Order;
   orders : Order[];
+  total : number;
   private orderurl: string;
   private saveOrderUrl: string;
   private deleteURL : string;
@@ -28,6 +29,11 @@ getProducts(){
 
   this.http.get("http://localhost:8080/api/allProducts")
   .toPromise().then(res=>this.list= res as Product[]);
+}
+getTotal(){
+  this.http.get("http://localhost:8080/api/getTotal")
+  .toPromise().then(res=>this.total= res as number);
+  console.log(this.total);
 }
 getOrders(){
 

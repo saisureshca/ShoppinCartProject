@@ -28,5 +28,6 @@ addCart(prod : Product){
   order.status="PENDING";
   this.service.saveOrder(order);
   this.service.getOrders();
+  this.service.getTotal();
 }
 }

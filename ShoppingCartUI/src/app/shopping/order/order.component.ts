@@ -16,23 +16,27 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.service.getOrders();
+    this.service.getTotal();
   }
   deleteFromCart(order : Order){
-    console.log('deleting');
+    
     this.service.deleteOrder(order);
     this.service.getOrders();
-    console.log('deleted');
+    this.service.getTotal();
+   
 
   }
 
   resetOrders(){
     this.service.resetOrders();
     this.service.getOrders();
+    this.service.getTotal();
   }
 
   public submitOrders(){
     this.service.submitOrders();
     this.service.getOrders();
+    this.service.getTotal();
   }
   
 }
