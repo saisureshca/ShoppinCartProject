@@ -3,6 +3,7 @@ import { ProductService } from 'src/app/shared/product.service';
 import { Product } from 'src/app/shared/product.model';
 import { OrderComponent } from '../order/order.component';
 import { Order } from 'src/app/shared/order.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-list',
@@ -15,7 +16,8 @@ export class ProductListComponent implements OnInit {
   productOrdered : Product;
   quantity : number;
 
-  constructor(private service : ProductService) { }
+  constructor(private service : ProductService,
+    private toastr : ToastrService) { }
   
 
   ngOnInit() {
@@ -27,7 +29,12 @@ addCart(prod : Product){
   order.quantity=1;
   order.status="PENDING";
   this.service.saveOrder(order);
-  this.service.getOrders();
-  this.service.getTotal();
+  this.toastr.success('Product Added to Cart', prod.productName);
+}
+
+removeCart(prod : Product){
+  let order = new Order;
+  order.product=prod;
+  this.service.removeOrder(order);
 }
 }

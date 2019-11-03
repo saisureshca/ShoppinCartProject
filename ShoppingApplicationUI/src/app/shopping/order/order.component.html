@@ -1,35 +1,37 @@
 <div class="card" style="width: 18rem;">
   <div class="card-body">
     <h2 class="card-title">The Cart</h2>
-    <div *ngIf="service.orders?.length > 0">
+    <div>
       <table class="table table-bordered table-striped">
         <thead class="thead-dark">
           <tr>
             <th scope="col"></th>
-            <th scope="col">Name</th>
+            <th scope="col">Product</th>
             <th scope="col">Q</th>
             <th scope="col">Price</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let order of service.orders">
-            <td><button (click)="deleteFromCart(order)" type="button" class="close" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button></td>
+          <td><button (click)="deleteFromCart(order)" type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button></td>
             <td>{{ order.product.productName }}</td>
             <td>{{order.quantity}}</td>
-            <td>{{order.product.productPrice*order.quantity}}</td>
-            
+            <td>{{order.product.productPrice*order.quantity}}</td> 
           </tr>
+          
         </tbody>
       </table>
+      <div *ngIf="service.orders?.length > 0">
       <h3 class="card-title"> Total : ${{service.total}}</h3>
       <div class="row">
         <div class="col-md-6">
-          <button type="button" (click)="submitOrders()" class="btn btn-primary">Finsih Order</button>
+          <button type="button" (click)="submitOrders()" class="btn btn-primary">Submit</button>
         </div>
         <div class="col-md-6">
-          <button type="button" (click)="resetOrders()" class="btn btn-danger">Reset Order</button>
+          <button type="button" (click)="resetOrders()" class="btn btn-danger">Reset</button>
+        </div>
         </div>
       </div>
     </div>

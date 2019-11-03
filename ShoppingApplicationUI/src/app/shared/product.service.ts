@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Product } from './product.model';
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Order } from './order.model';
-import { Observable } from 'rxjs/internal/Observable';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class ProductService {
   private saveOrderUrl: string;
   private deleteURL : string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private tostar : ToastrService) {
     this.orderurl = "http://localhost:8080/api/getOrders"
     this.saveOrderUrl = "http://localhost:8080/api/addOrder";
     this.deleteURL = "http://localhost:8080/api/deleteOrder";
@@ -33,12 +32,13 @@ getProducts(){
 getTotal(){
   this.http.get("http://localhost:8080/api/getTotal")
   .toPromise().then(res=>this.total= res as number);
-  console.log(this.total);
+  console.log('in get Total'+this.total);
 }
 getOrders(){
 
   this.http.get(this.orderurl)
   .toPromise().then(res=>this.orders= res as Order[]);
+  console.log('In get Orders');
 }
 resetOrders(){
   this.http.get("http://localhost:8080/api/deleteAlOrders")
@@ -50,14 +50,18 @@ submitOrders(){
   .toPromise().then(result=> console.log(result));
 }
 
-public saveOrder(user: Order) {
-   this.http.post<Order>(this.saveOrderUrl, user).subscribe((result) => {
-  });
+saveOrder(user: Order) {
+   this.http.post<Order>(this.saveOrderUrl, user).subscribe(result=> result );
+   this.getOrders();
+   this.getTotal();
 }
-
-public deleteOrder(order : Order){
-   this.http.post<Order>(this.deleteURL, order).subscribe((result)=>{
-  });
+removeOrder(user: Order) {
+  this.http.post<Order>("http://localhost:8080/api/removeOrder", user).subscribe(result=> result);
+  this.getOrders();
+  this.getTotal();
+}
+deleteOrder(order : Order){
+   this.http.post<Order>(this.deleteURL, order).subscribe(result=>result);
 }
 
 }

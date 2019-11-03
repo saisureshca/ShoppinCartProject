@@ -1,0 +1,16 @@
+<div class="card-group">
+        <div class="col-lg-2 col-md-4" *ngFor="let prod of service.list">
+          <img src={{prod.photoLink}} class="card-img-top" alt="" >
+          <div class="card-body">
+            <h5 class="card-title">{{prod.productName}}</h5>
+            <p class="card-text">Price:${{+prod.productPrice}}</p>
+            <div class="row">
+            <button type="button" (click)= "addCart(prod)" class="btn btn-primary">+</button> 
+            <div class="col-lg-2"></div>
+            <button type = "button" (click)= "removeCart(prod)" class="btn btn-danger">
+                <span class="glyphicon glyphicon-minus"></span> -
+            </button>
+            </div>
+          </div>
+          </div>
+</div>
