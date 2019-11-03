@@ -1,5 +1,6 @@
 package com.project.ShoppingCart;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,17 +22,21 @@ public class OrderController {
 	@GetMapping("/api/getOrders")
     public   List<Order> getOrders() {
 		System.out.println("In here to get order");
-        return orderRepository.findAll()
+        List<Order> list= orderRepository.findAll()
         		.stream().filter(order->order.getStatus().equalsIgnoreCase("PENDING")).
         		collect(Collectors.toList());
+        return list;
     }
 	
 	@GetMapping("/api/getTotal")
     public   Double getTotal() {
 		System.out.println("In here to get order");
-        return orderRepository.findAll()
+        Double total = orderRepository.findAll()
         		.stream().filter(or->or.getStatus().equalsIgnoreCase("PENDING"))
         		.mapToDouble(p->p.getQuantity() * p.getProduct().getProductPrice()).sum();
+        DecimalFormat df = new DecimalFormat("#.##");
+        total = Double.valueOf(df.format(total));
+        return total;
     }
 	
 	@RequestMapping(value = "/api/addOrder", method = RequestMethod.POST)
@@ -48,6 +53,26 @@ public class OrderController {
 		}
 		System.out.println("Here to save order");
 		return orderRepository.save(order);
+
+	}
+	@RequestMapping(value = "/api/removeOrder", method = RequestMethod.POST)
+	Boolean removeOrder(@RequestBody Order order) {
+		List<Order> checklist = orderRepository.findAll().stream()
+				.filter(ord -> ord.getStatus().equalsIgnoreCase("PENDING")
+						&& ord.getProduct().getProductName().equalsIgnoreCase(order.getProduct().getProductName()))
+				.collect(Collectors.toList());
+		if (checklist.size() > 0) {
+			Order od = checklist.get(0);
+			Integer quantity = od.getQuantity() - 1;
+			od.setQuantity(quantity);
+			if(quantity==0) {
+				orderRepository.delete(od);
+				return false;
+			}
+			orderRepository.save(od);
+			return false;
+		}else
+			return true;
 
 	}
 
