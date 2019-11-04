@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Order } from '../shared/order.model';
+import { ProductService } from '../shared/product.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-submit-order',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubmitOrderComponent implements OnInit {
 
-  constructor() { }
+  submittedOrder: Order[];
+  constructor(private service : ProductService, private toastr : ToastrService)  { }
 
   ngOnInit() {
+    this.service.submitOrders()
+    this.toastr.success('Order Submitted Successfully.');
   }
 
 }

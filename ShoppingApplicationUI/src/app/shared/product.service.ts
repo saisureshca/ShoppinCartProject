@@ -12,6 +12,7 @@ export class ProductService {
   list : Product[];
   order : Order;
   orders : Order[];
+  submittedOrder : Order[];
   total : number;
   private orderurl: string;
   private saveOrderUrl: string;
@@ -47,7 +48,7 @@ resetOrders(){
 
 submitOrders(){
   this.http.get("http://localhost:8080/api/submitOrders")
-  .toPromise().then(result=> console.log(result));
+  .toPromise().then(result=> this.submittedOrder = result as Order[]);
 }
 
 saveOrder(user: Order) {

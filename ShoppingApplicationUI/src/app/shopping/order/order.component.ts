@@ -37,12 +37,5 @@ export class OrderComponent implements OnInit {
     this.toastr.error('Cart Cleared', ' ');
   }
 
-  public submitOrders(){
-    this.service.submitOrders();
-    this.toastr.success('Order Submitted Successfully.');
-    this.service.getOrders();
-    this.service.getTotal();
-    
-  }
   
 }

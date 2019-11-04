@@ -1,4 +1,21 @@
 <div class="card-body">
     <h5 class="card-title">Order Submitted Successfully</h5>
     <p class="card-text">Please go to home to order more products</p>
+    <table class="table table-bordered table-striped" style="width: 300px;">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Q</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of service.submittedOrder">
+                <td>{{ order.product.productName }}</td>
+                <td>{{order.quantity}}</td>
+                <td>{{order.product.productPrice*order.quantity}}</td> 
+              </tr>
+              <h5 class="card-text"> Amount Paid : ${{service.total}}</h5>
+            </tbody>
+          </table>
 </div>

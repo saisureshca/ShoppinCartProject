@@ -29,7 +29,6 @@ addCart(prod : Product){
   order.quantity=1;
   order.status="PENDING";
   this.service.saveOrder(order);
-  this.toastr.success('Product Added to Cart', prod.productName);
 }
 
 removeCart(prod : Product){

@@ -97,7 +97,7 @@ public class OrderController {
 	
 	@RequestMapping(value = "/api/submitOrders", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:4200")
-	String submitOrders() {
+	List<Order> submitOrders() {
 		List<Order> submitList = orderRepository.findAll().stream()
 				.filter(ord -> ord.getStatus().equalsIgnoreCase("PENDING"))
 				.collect(Collectors.toList());
@@ -105,7 +105,7 @@ public class OrderController {
 		submitList.stream().forEach(order->order.setStatus("COMPLETED"));
 		List<Order> ordersSaved = orderRepository.saveAll(submitList);
 		ordersSaved.stream().forEach(System.out :: println);
-		return "Order Submitted";
+		return ordersSaved;
 	}
 
 }
