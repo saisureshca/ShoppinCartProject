@@ -1,0 +1,25 @@
+
+<div class="card-body">
+        <p class="card-text">Please go to Homepage to order more products</p>
+        <h5 class="card-title">List of Finished Orders</h5>
+        
+        <table class="table table-bordered table-striped" style="width: 540px;">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of service.orderHistory">
+                    <td> <img src={{order.product.photoLink}} class="card-img-top" alt="" > </td>
+                    <td>{{ order.product.productName }}</td>
+                    <td>{{order.quantity}}</td>
+                    <td>{{order.product.productPrice*order.quantity}}</td> 
+                  </tr>
+                </tbody>
+              </table>
+    </div>
+    

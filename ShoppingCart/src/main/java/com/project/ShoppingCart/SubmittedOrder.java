@@ -1,11 +1,14 @@
 package com.project.ShoppingCart;
 
+import java.util.List;
+
+import javax.persistence.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,9 +16,10 @@ import lombok.ToString;
 @Getter @Setter
 @NoArgsConstructor
 @ToString @EqualsAndHashCode
-public class SubmittedOrders {
-
+public class SubmittedOrder {
+	@Id
 	private String _id;
-	private @NonNull Product product;
-	private @NonNull Integer quantity;
+	private List<Order> orders;
+	private Double total;
+
 }

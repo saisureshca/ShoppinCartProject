@@ -22,6 +22,6 @@ public class Product {
 	    private @NonNull String productName;
 	    private @NonNull Double productPrice;
 	    private String photoLink;
-	    private Integer stock;
+	    private String description;
 	
 }

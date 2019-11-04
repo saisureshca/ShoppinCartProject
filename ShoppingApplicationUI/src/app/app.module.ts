@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule,routingComponents } from './app-routing.module';
 import { SubmitOrderComponent } from './submit-order/submit-order.component';
+import { SubmittedOrdersComponent } from './submitted-orders/submitted-orders.component';
 
 
 
@@ -20,7 +21,8 @@ import { SubmitOrderComponent } from './submit-order/submit-order.component';
     ProductListComponent,
     OrderComponent,
     routingComponents,
-    SubmitOrderComponent
+    SubmitOrderComponent,
+    SubmittedOrdersComponent
   ],
   imports: [
     BrowserModule,

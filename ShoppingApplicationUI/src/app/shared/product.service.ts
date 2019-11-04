@@ -14,6 +14,7 @@ export class ProductService {
   orders : Order[];
   submittedOrder : Order[];
   total : number;
+  orderHistory : Order[];
   private orderurl: string;
   private saveOrderUrl: string;
   private deleteURL : string;
@@ -33,17 +34,15 @@ getProducts(){
 getTotal(){
   this.http.get("http://localhost:8080/api/getTotal")
   .toPromise().then(res=>this.total= res as number);
-  console.log('in get Total'+this.total);
 }
 getOrders(){
 
   this.http.get(this.orderurl)
   .toPromise().then(res=>this.orders= res as Order[]);
-  console.log('In get Orders');
 }
 resetOrders(){
   this.http.get("http://localhost:8080/api/deleteAlOrders")
-  .toPromise().then(result=> console.log(result));
+  .toPromise().then(result=> result);
 }
 
 submitOrders(){
@@ -63,6 +62,11 @@ removeOrder(user: Order) {
 }
 deleteOrder(order : Order){
    this.http.post<Order>(this.deleteURL, order).subscribe(result=>result);
+}
+
+getSubmittedOrders(){
+  this.http.get("http://localhost:8080/api/finishedOrders")
+  .toPromise().then(result=> this.orderHistory = result as Order[]);
 }
 
 }

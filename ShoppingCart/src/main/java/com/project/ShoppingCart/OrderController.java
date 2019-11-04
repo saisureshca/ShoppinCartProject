@@ -1,6 +1,7 @@
 package com.project.ShoppingCart;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,26 +20,25 @@ public class OrderController {
 	@Autowired
 	OrderRepository orderRepository;
 	
+	@Autowired
+	SubmittedOrderRepository submittedOrderRepository;
+
 	@GetMapping("/api/getOrders")
-    public   List<Order> getOrders() {
-		System.out.println("In here to get order");
-        List<Order> list= orderRepository.findAll()
-        		.stream().filter(order->order.getStatus().equalsIgnoreCase("PENDING")).
-        		collect(Collectors.toList());
-        return list;
-    }
-	
+	public List<Order> getOrders() {
+		List<Order> list = orderRepository.findAll().stream()
+				.filter(order -> order.getStatus().equalsIgnoreCase("PENDING")).collect(Collectors.toList());
+		return list;
+	}
+
 	@GetMapping("/api/getTotal")
-    public   Double getTotal() {
-		System.out.println("In here to get order");
-        Double total = orderRepository.findAll()
-        		.stream().filter(or->or.getStatus().equalsIgnoreCase("PENDING"))
-        		.mapToDouble(p->p.getQuantity() * p.getProduct().getProductPrice()).sum();
-        DecimalFormat df = new DecimalFormat("#.##");
-        total = Double.valueOf(df.format(total));
-        return total;
-    }
-	
+	public Double getTotal() {
+		Double total = orderRepository.findAll().stream().filter(or -> or.getStatus().equalsIgnoreCase("PENDING"))
+				.mapToDouble(p -> p.getQuantity() * p.getProduct().getProductPrice()).sum();
+		DecimalFormat df = new DecimalFormat("#.##");
+		total = Double.valueOf(df.format(total));
+		return total;
+	}
+
 	@RequestMapping(value = "/api/addOrder", method = RequestMethod.POST)
 	Order addOrder(@RequestBody Order order) {
 		List<Order> checklist = orderRepository.findAll().stream()
@@ -51,10 +51,10 @@ public class OrderController {
 			od.setQuantity(quantity);
 			return orderRepository.save(od);
 		}
-		System.out.println("Here to save order");
 		return orderRepository.save(order);
 
 	}
+
 	@RequestMapping(value = "/api/removeOrder", method = RequestMethod.POST)
 	Boolean removeOrder(@RequestBody Order order) {
 		List<Order> checklist = orderRepository.findAll().stream()
@@ -65,13 +65,13 @@ public class OrderController {
 			Order od = checklist.get(0);
 			Integer quantity = od.getQuantity() - 1;
 			od.setQuantity(quantity);
-			if(quantity==0) {
+			if (quantity == 0) {
 				orderRepository.delete(od);
 				return false;
 			}
 			orderRepository.save(od);
 			return false;
-		}else
+		} else
 			return true;
 
 	}
@@ -79,7 +79,6 @@ public class OrderController {
 	@RequestMapping(value = "/api/deleteOrder", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:4200")
 	void deleteOrder(@RequestBody Order order) {
-		System.out.println("Here to delete order");
 		orderRepository.delete(order);
 
 	}
@@ -88,24 +87,36 @@ public class OrderController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	String deleteOrders() {
 		List<Order> deleteList = orderRepository.findAll().stream()
-				.filter(ord -> ord.getStatus().equalsIgnoreCase("PENDING"))
-				.collect(Collectors.toList());
-		System.out.println("Here to reset order");
+				.filter(ord -> ord.getStatus().equalsIgnoreCase("PENDING")).collect(Collectors.toList());
 		orderRepository.deleteAll(deleteList);
 		return "Cart Cleared";
 	}
-	
+
 	@RequestMapping(value = "/api/submitOrders", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:4200")
 	List<Order> submitOrders() {
 		List<Order> submitList = orderRepository.findAll().stream()
-				.filter(ord -> ord.getStatus().equalsIgnoreCase("PENDING"))
-				.collect(Collectors.toList());
-		System.out.println("Here to submit order");
-		submitList.stream().forEach(order->order.setStatus("COMPLETED"));
+				.filter(ord -> ord.getStatus().equalsIgnoreCase("PENDING")).collect(Collectors.toList());
+		submitList.stream().forEach(order -> order.setStatus("COMPLETED"));
 		List<Order> ordersSaved = orderRepository.saveAll(submitList);
-		ordersSaved.stream().forEach(System.out :: println);
+		Double total = submitList.stream().filter(or -> or.getStatus().equalsIgnoreCase("PENDING"))
+				.mapToDouble(p -> p.getQuantity() * p.getProduct().getProductPrice()).sum();
+		DecimalFormat df = new DecimalFormat("#.##");
+		total = Double.valueOf(df.format(total));
+		SubmittedOrder submitted = new SubmittedOrder();
+		submitted.setOrders(ordersSaved);
+		submitted.setTotal(total);
+		submittedOrderRepository.save(submitted);
 		return ordersSaved;
+	}
+	
+	@RequestMapping(value = "/api/finishedOrders", method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:4200")
+	List<Order> finishedOrders() {
+		List<Order> finishedOrders = new ArrayList<Order>();
+		List<List<Order>> finished = submittedOrderRepository.findAll().stream().map(o->o.getOrders()).collect(Collectors.toList());
+		finished.forEach(o->finishedOrders.addAll(o));
+		return finishedOrders;
 	}
 
 }

@@ -4,11 +4,13 @@ import { SubmitOrderComponent } from './submit-order/submit-order.component';
 import { OrderComponent } from './shopping/order/order.component';
 import { ProductListComponent } from './shopping/product-list/product-list.component';
 import { ShoppingComponent } from './shopping/shopping.component';
+import { SubmittedOrdersComponent } from './submitted-orders/submitted-orders.component';
 
 const routes : Routes =[
     {path :'', component : ShoppingComponent  },
     {path :'viewCart', component : OrderComponent},
-    {path : 'submitOrder', component: SubmitOrderComponent}
+    {path : 'submitOrder', component: SubmitOrderComponent},
+    {path : 'orderHistory', component: SubmittedOrdersComponent}
 ];
 
 @NgModule({
@@ -18,4 +20,4 @@ const routes : Routes =[
 })
 
 export class AppRoutingModule{ }
-export const routingComponents =[SubmitOrderComponent,ShoppingComponent,OrderComponent]
+export const routingComponents =[SubmitOrderComponent,ShoppingComponent,OrderComponent,ProductListComponent,SubmittedOrdersComponent]
