@@ -1,16 +1,17 @@
-<div class="card-group">
-        <div class="col-lg-2 col-md-4" *ngFor="let prod of service.list">
-          <img src={{prod.photoLink}} class="card-img-top" alt="" >
-          <div class="card-body">
-            <h5 class="card-title">{{prod.productName}}</h5>
-            <p class="card-text">Price:${{+prod.productPrice}}</p>
-            <div class="row">
-            <button type="button" (click)= "addCart(prod)" class="btn btn-primary">+</button> 
-            <div class="col-lg-2"></div>
-            <button type = "button" (click)= "removeCart(prod)" class="btn btn-danger">
-                <span class="glyphicon glyphicon-minus"></span> -
-            </button>
-            </div>
-          </div>
-          </div>
-</div>
+
+<div class="card mb-3" *ngFor="let prod of service.list" style="max-width: 440px;"> 
+    <div class="row no-gutters" >
+      <div class="col-md-4">
+        <img src={{prod.photoLink}} class="card-img" alt="">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{prod.productName}}</h5>
+          <p class="card-text"></p>{{prod.description}}
+          <p class="card-text">Price: ${{prod.productPrice}}</p>
+          <button type="button" (click)= "addCart(prod)" class="btn btn-primary">Add to Cart</button>
+          <button type = "button" (click)= "removeCart(prod)" class="btn btn-danger">Remove</button>
+        </div>
+        </div>
+    </div>
+  </div>
