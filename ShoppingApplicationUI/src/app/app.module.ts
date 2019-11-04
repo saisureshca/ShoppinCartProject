@@ -8,6 +8,9 @@ import { ProductService } from './shared/product.service';
 import { OrderComponent } from './shopping/order/order.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { AppRoutingModule,routingComponents } from './app-routing.module';
+import { SubmitOrderComponent } from './submit-order/submit-order.component';
+
 
 
 @NgModule({
@@ -15,12 +18,15 @@ import { ToastrModule } from 'ngx-toastr';
     AppComponent,
     ShoppingComponent,
     ProductListComponent,
-    OrderComponent
+    OrderComponent,
+    routingComponents,
+    SubmitOrderComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     ToastrModule.forRoot()
   ],
   providers: [ProductService],
