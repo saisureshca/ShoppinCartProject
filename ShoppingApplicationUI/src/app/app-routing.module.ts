@@ -5,9 +5,11 @@ import { OrderComponent } from './shopping/order/order.component';
 import { ProductListComponent } from './shopping/product-list/product-list.component';
 import { ShoppingComponent } from './shopping/shopping.component';
 import { SubmittedOrdersComponent } from './submitted-orders/submitted-orders.component';
+import { AppComponent } from './app.component';
 
 const routes : Routes =[
     {path :'', component : ShoppingComponent  },
+    {path :'shopping', component : ShoppingComponent  },
     {path :'viewCart', component : OrderComponent},
     {path : 'submitOrder', component: SubmitOrderComponent},
     {path : 'orderHistory', component: SubmittedOrdersComponent}

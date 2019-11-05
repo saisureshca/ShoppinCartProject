@@ -13,7 +13,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let order of service.orders">
-          <td><button (click)="deleteFromCart(order)" type="button" class="close" aria-label="Close">
+          <td><button routerLink="/" (click)="deleteFromCart(order)" type="button" class="close" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button></td>
             <td>{{ order.product.productName }}</td>
@@ -30,7 +30,7 @@
           <button type="button" routerLink="/submitOrder"  class="btn btn-primary">Submit</button>
         </div>
         <div class="col-md-6">
-          <button type="button" (click)="resetOrders()" class="btn btn-danger">Reset</button>
+          <button type="button" routerLink="/" (click)="resetOrders()" class="btn btn-danger">Reset</button>
         </div>
         </div>
       </div>
