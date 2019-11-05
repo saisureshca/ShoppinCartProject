@@ -15,6 +15,7 @@ export class ProductService {
   submittedOrder : Order[];
   total : number;
   orderHistory : Order[];
+  removed : boolean;
   private orderurl: string;
   private saveOrderUrl: string;
   private deleteURL : string;
@@ -56,7 +57,7 @@ saveOrder(user: Order) {
    this.getTotal();
 }
 removeOrder(user: Order) {
-  this.http.post<Order>("http://localhost:8080/api/removeOrder", user).subscribe(result=> result);
+  this.http.post<boolean>("http://localhost:8080/api/removeOrder", user).subscribe(result=> {if(result){this.tostar.error('Item not in cart',user.product.productName);}});
   this.getOrders();
   this.getTotal();
 }
